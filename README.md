@@ -177,3 +177,6 @@ distance = sqrt(Σ(x₁ - x₂)²)
 - Predictions are bounded to [1, 5]
 - Use relative paths for CSV files to ensure portability
 - Developed and tested on Linux systems
+
+## Author 
+Caleb Christian
