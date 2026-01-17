@@ -4,7 +4,7 @@ A Java-based collaborative filtering application that analyzes user ratings to g
 
 ## Overview
 
-This project implements a complete recommendation system built incrementally across six programming assignments. It processes song rating data, identifies patterns in user preferences, and generates playlists based on song similarity clustering.
+This project implements a complete recommendation system built incrementally across six programming assignments for Introduction to Software Engineering 'CS214' at Colorado State University. It processes song rating data, identifies patterns in user preferences, and generates playlists based on song similarity clustering.
 
 ## Features
 
