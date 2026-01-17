@@ -1,0 +1,75 @@
+// IF YOU EDIT THIS FILE, YOU WILL RECEIVE A ZERO
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'jacoco'
+    id 'pmd'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.6.0')
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation 'org.apache.commons:commons-csv:1.10.0'
+    implementation 'org.apache.commons:commons-math4-legacy:4.0-beta1'
+}
+
+test {
+    useJUnitPlatform()
+    outputs.upToDateWhen { false } 
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams true  
+    }
+    finalizedBy jacocoTestReport
+    jacoco {
+        destinationFile = layout.buildDirectory.file('jacoco/jacocoTest.exec').get().asFile
+        classDumpDir = layout.buildDirectory.dir('jacoco/classpathdumps').get().asFile
+    }
+}
+
+application {
+    mainClass = "Cs214Project"
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.addAll(["-Werror", "-Xlint:unchecked,deprecation"])
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Cs214Project'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+pmd {
+    ruleSetFiles = files("config/pmd/ruleset.xml")
+    ignoreFailures = true
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    destinationDir = file("$buildDir/docs/javadoc")
+}
