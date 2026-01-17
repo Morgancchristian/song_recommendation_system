@@ -38,9 +38,59 @@ gradle build
 gradle run -q --args="'input.csv' 'output.csv'"
 ```
 
+**Example:**
+```bash
+gradle run -q --args="'database/files/file1.csv' 'song_stats.csv'"
+```
+
+Input file1.csv:
+```csv
+song1,user1,3
+song1,user2,2
+song1,user3,3
+song1,user4,5
+song2,user1,5
+song2,user2,4
+song2,user3,2
+song2,user4,5
+```
+
+Output song_stats.csv:
+```csv
+song,number of ratings,mean,standard deviation
+song1,4,3.25,1.0897247358851685
+song2,4,4.0,1.224744871391589
+```
+
 ### User Analysis
 ```bash
 gradle run -q --args="'input.csv' 'output.csv' '-a'"
+```
+
+**Example:**
+```bash
+gradle run -q --args="'database/files/file4.csv' 'user_analysis.csv' '-a'"
+```
+
+Input file4.csv:
+```csv
+Bohemian Rhapsody,charlie,4
+Sweet Home Alabama,alex,4
+All Star,alex,3
+All Star,charlie,2
+Sweet Home Alabama,charlie,3
+All Star,cameron,5
+```
+
+Output user_analysis.csv:
+```csv
+username,song,rating
+alex,All Star,3
+alex,Bohemian Rhapsody,NaN
+alex,Sweet Home Alabama,4
+charlie,All Star,2
+charlie,Bohemian Rhapsody,4
+charlie,Sweet Home Alabama,3
 ```
 
 ### Song Similarity
@@ -48,9 +98,57 @@ gradle run -q --args="'input.csv' 'output.csv' '-a'"
 gradle run -q --args="'input.csv' 'output.csv' '-u'"
 ```
 
+**Example:**
+```bash
+gradle run -q --args="'database/files/file2.csv' 'song_similarities.csv' '-u'"
+```
+
+Input file2.csv:
+```csv
+I Gotta Feeling,sifat,1
+Big Girls Don't Cry,maxi,4
+I Gotta Feeling,maxi,2
+Big Girls Don't Cry,sifat,2
+Suit & Tie,sifat,5
+Big Girls Don't Cry,sri,4
+```
+
+Output song_similarities.csv:
+```csv
+name1,name2,similarity
+Big Girls Don't Cry,I Gotta Feeling,2.0847431127488694
+Big Girls Don't Cry,Suit & Tie,1.765045216243656
+I Gotta Feeling,Suit & Tie,2.353393621658208
+```
+
 ### User Predictions
 ```bash
 gradle run -q --args="'input.csv' 'output.csv' '-p'"
+```
+
+**Example:**
+```bash
+gradle run -q --args="'database/files/file3.csv' 'predictions.csv' '-p'"
+```
+
+Output predictions.csv:
+```csv
+song,user,predicted rating
+song1,user5,2
+song2,user3,5
+song2,user4,1
+song2,user5,NaN
+song3,user1,4
+song3,user2,5
+song3,user5,3
+song4,user5,2
+song5,user1,4
+song5,user2,5
+song5,user4,2
+song6,user1,NaN
+song6,user2,NaN
+song6,user3,4
+song6,user4,NaN
 ```
 
 ### Recommendations (K-means)
@@ -58,9 +156,50 @@ gradle run -q --args="'input.csv' 'output.csv' '-p'"
 gradle run -q --args="'input.csv' 'output.csv' '-r' 'song1' 'song2' 'song3'"
 ```
 
+**Example:**
+```bash
+gradle run -q --args="'database/files/file3.csv' 'output.csv' '-r' 'song3' 'song5' 'song6'"
+```
+
+Output output.csv:
+```csv
+user choice,recommendation
+song3,song4
+song6,song1
+song6,song2
+```
+
 ### Playlist Generation
 ```bash
 gradle run -q --args="'input.csv' 'output.csv' '-s' 'k' 'song1' 'song2' ..."
+```
+
+**Example:**
+```bash
+gradle run -q --args="'database/files/rock.csv' 'playlist.csv' '-s' '1' 'Bohemian Rhapsody'"
+```
+
+Input rock.csv:
+```csv
+Bohemian Rhapsody,user1,5
+Bohemian Rhapsody,user2,4
+Bohemian Rhapsody,user3,5
+Stairway to Heaven,user1,5
+Stairway to Heaven,user2,4
+Stairway to Heaven,user3,5
+Hotel California,user1,5
+Hotel California,user2,4
+Hotel California,user3,3
+November Rain,user1,1
+November Rain,user2,5
+November Rain,user3,1
+```
+
+Output playlist.csv:
+```
+Stairway to Heaven
+Hotel California
+November Rain
 ```
 
 ## Input Format
@@ -178,5 +317,5 @@ distance = sqrt(Σ(x₁ - x₂)²)
 - Use relative paths for CSV files to ensure portability
 - Developed and tested on Linux systems
 
-## Author 
+## Author
 Caleb Christian
